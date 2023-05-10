@@ -1,13 +1,15 @@
-name: Workflow that sets up Python 3.6
+name: Workflow that sets up Python 3.6 and 3.5
 on: { push: }
 jobs:
   setup-python-36:
     strategy:
       matrix:
-        version: [3.6.15, 3.6.14, 3.6.13, 3.6.12, 3.6.11, 3.6.10, 3.6.9, 3.6.8, 3.6.7, 3.5.10, 3.5.9, 3.5.4]
-    runs-on: ubuntu-latest
+        os: [ ubuntu, macos, windows ]
+        python-version: [ 3.6.15, 3.6.14, 3.6.13, 3.6.12, 3.6.11, 3.6.10, 3.6.9, 3.6.8, 3.6.7, 3.5.10, 3.5.9, 3.5.4 ]
+    continue-on-error: true
+    runs-on: ${{ matrix.os }}-latest
     steps:
       - name: Set up Python ${{ matrix.version }}
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.version }}
+          python-version: ${{ matrix.python-version }}
